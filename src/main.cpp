@@ -18,7 +18,12 @@ class $modify(LevelInfoLayer) {
 			ServerListener::connectAsync();
 		}
 
+		if(auto layer = GlobalVars::getSharedInstance()->m_currentLevelInfoLayer){
+			layer->release();
+		}
+
 		GlobalVars::getSharedInstance()->m_currentLevelInfoLayer = this;
+		this->retain();
 
 		ServerListener::sendMessage(fmt::format("{}", level->m_levelID.value()));
 
